@@ -10,6 +10,78 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let teamMemberArray = [];
+
+function createManager() {
+
+    inquirer.prompt([
+        {
+            name: "managerName",
+            type: "input",
+            message: "Enter the name for your team's manager: "
+        }, 
+        {
+            name: "managerId",
+            type: "input",
+            message: "Enter an id for manager: "
+        },
+        {
+            name: "managerEmail",
+            type: "input",
+            message: "Enter an email for manager: "
+        },
+        {
+            name: "managerOfficeNumber",
+            type: "input",
+            message: "Enter an office number for manager: "
+        },
+        {
+            name: "addAnotherEmployee",
+            type: "list",
+            message: "Choose another employee type: ",
+            choices: ["Engineer","Intern","No more members to add"]
+        }
+    ]).then( response => {
+        console.log(response)
+        let manager = new Manager(response.managerName,response.managerId,response.managerEmail,response.managerOfficeNumber);
+
+        teamMemberArray.push(manager);
+
+        switch (response.addAnotherEmployee){
+            case "Engineer":
+                createEngineer();
+                break;
+            case "Intern":
+                createIntern();
+                break;
+            default:
+                makeTemplate();
+                break;    
+        }
+    })
+}
+
+createManager();
+
+function createEngineer(){
+
+    inquirer.prompt([
+        {
+            name: "engineerName",
+            type: "input",
+            message: "Enter a name for engineer: "
+        }
+    ])
+}
+
+function makeTemplate(){
+
+    fs.writeFile(outputPath,render(teamMemberArray),"utf-8");
+
+}
+
+//test app.js
+//make sure htmlrenderer.js is correct 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
