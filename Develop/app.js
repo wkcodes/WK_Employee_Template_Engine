@@ -42,7 +42,7 @@ function createManager() {
             choices: ["Engineer","Intern","No more members to add"]
         }
     ]).then( response => {
-        console.log(response)
+        
         let manager = new Manager(response.managerName,response.managerId,response.managerEmail,response.managerOfficeNumber);
 
         teamMemberArray.push(manager);
@@ -58,6 +58,8 @@ function createManager() {
                 makeTemplate();
                 break;    
         }
+        //testing response w/ console.log
+        console.log(response)
     })
 }
 
